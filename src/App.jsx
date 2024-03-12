@@ -7,6 +7,10 @@ const App = () => {
   const [selectedCandidates, setSelectedCandidates] = useState([])
   const [checkDups, setCheckDups] = useState([])
   const [votesArr, setVotesArr] = useState([])
+  const [candidatesArr, setCandidatesArr] = useState([])
+  const [BobVotes, setBobVotes] = useState([])
+  const [AliceVotes, setAliceVotes] = useState([])
+  const [charlieVotes, setCharlieVotes] = useState([])
 
   const addCandidate = (candidate, idx) => {
     setCheckDups((prev) => [...prev, candidate])
@@ -44,7 +48,31 @@ const App = () => {
     setSelectedCandidates([])
   }
 
-  console.log(votesArr)
+  const showWinner = () => {
+    votesArr.map((votes) => {
+      votes.forEach((vote, idx) => {
+        candidatesArr.push({ name: vote, rank: idx + 1 })
+      })
+    })
+    candidatesArr.map((candidate) => {
+      if (candidate.name === 'Bob') {
+        setBobVotes((prev) => [
+          ...prev,
+          { rank: candidate.rank, candidate: candidate.name },
+        ])
+      } else if (candidate.name === 'Alice') {
+        setAliceVotes((prev) => [
+          ...prev,
+          { rank: candidate.rank, candidate: candidate.name },
+        ])
+      } else {
+        setCharlieVotes((prev) => [
+          ...prev,
+          { rank: candidate.rank, candidate: candidate.name },
+        ])
+      }
+    })
+  }
 
   return (
     <div className='App'>
@@ -102,7 +130,7 @@ const App = () => {
         })}
       </div>
 
-      <button>Show the winner</button>
+      <button onClick={showWinner}>Show the winner</button>
     </div>
   )
 }
